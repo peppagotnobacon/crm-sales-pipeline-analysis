@@ -1,4 +1,12 @@
---1. product manakah yang paling profitable?
+-- ================================================
+-- B2B Sales Pipeline Analysis
+-- Business Questions
+-- ================================================
+
+-- ------------------------------------------------
+-- Q1: Which products are the most profitable?
+-- Metrics: popularity, win contribution, median deal value
+-- ------------------------------------------------
 SELECT product,
 COUNT(*) AS total_product,
 ROUND(SUM(CASE WHEN deal_stage='Won' THEN 1 ELSE 0 END)*100
@@ -10,7 +18,11 @@ WHERE deal_stage='Won'
 GROUP BY product
 ORDER BY total_product DESC, "grand_total_%" DESC, med_closevalue DESC;
 
---2. Sales agent manakah yang paling efektif?
+-- ------------------------------------------------
+-- Q2: Which sales agents are the most effective?
+-- Metrics: win contribution, time to close, median deal value
+-- Custom scoring system using DENSE_RANK
+-- ------------------------------------------------
 WITH time AS(
 	SELECT engage_date,
 		opportunity_id,
